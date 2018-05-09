@@ -1,0 +1,54 @@
+h1{
+  position: relative;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+li{
+  list-style: none;
+}
+
+
+.label{
+  display: inline-block;
+}
+.input{
+  display: inline-block;
+}
+
+
+.card {
+  max-width: auto;
+}
+#container-my{
+  /* background-color: gray; */
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.book-list{
+  display: none;
+  text-align: left;
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+
+}
+
+.invisible {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.visible {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}

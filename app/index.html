@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Old Book New Book App</title>
+  <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="container-my">
+    <h1>Old Book New Book</h1>
+    <blockquote><em>“It is a good rule after reading a new book, never to allow yourself another new one till you have read an old one in between.”</em> ― C.S. Lewis</blockquote>
+    <form action="" id="form"></form>
+  <div class="card border-secondary mb-3" style="">
+  <div class="card-header" style="text-align: center">
+      <h4>Enter a New Book</h4></div>
+    <div class="card-body" >
+      <div class="form-group">
+        <!-- <label for="book-input" class="card-title">Enter book title</label> -->
+        <input type="text" name="title-input" id="title-input" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <!-- <label for="author-input">Enter book author</label> -->
+        <input type="text" name="author-input" id="author-input" placeholder="Author">
+      </div>
+      <div class="form-group">
+        <!-- <label for="year-input">Enter book year</label> -->
+        <input type="number" name="year-input" id="year-input" placeholder="Year">
+      </div>
+      <div class="form-group">
+        <!-- <label for="pages-input" class=".label">Enter book pages</label> -->
+        <input type="number" name="pages-input" id="pages-input" placeholder="Pages">
+      </div>
+      <div class="centered">
+        <button class="add-book-btn centered">Add Book</button>
+        <button class="show-list-btn centered">Show List</button>
+        <button class="hide-list-btn centered">Hide List</button>
+        <button class="generate-book-btn centered mt-3">Generate Old and New Book</button>
+      </div>
+    </div>
+  </div>
+<div class="old-book invisible">
+  <div class="card border-secondary mb-3" style="">
+    <div class="card-header" style="text-align: center"><h4>Old Book Title</h4></div>
+    <div class="card-body"><p>Author, Pages, Start Date, Finish Date</p>
+      <button class="centered">Get Book Suggestion</button>
+    </div>
+  </div>
+</div>
+<div class="new-book invisible">
+  <div class="card border-secondary mb-3" style="">
+    <div class="card-header" style="text-align: center"><h4>New Book Title</h4></div>
+    <div class="card-body"><p>Author, Pages, Start Date, Finish Date</p>
+      <button class="centered">Get Book Suggestion</button>
+    </div>
+  </div>
+</div>
+<div>
+  <ul class="list-group book-list">
+  </ul>
+</div>
+
+</div>
+
+
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
