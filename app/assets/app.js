@@ -17,8 +17,39 @@ const StorageCtrl = (function (){
 
   return {
     getBooks(){
-      return bookList;
+      return JSON.parse(localStorage.getItem('books'));
     },
+    getBooksFromStorage(){
+      let books;
+      if(localStorage.getItem('books') === null){
+        books = [];
+      } else {
+        books = JSON.parse(localStorage.getItem('books'));
+      }
+        return books;
+    },
+    // Setup local storage
+    storeItem(book){
+      let books;
+
+      if(localStorage.getItem('books') === null){
+      books = [];
+
+      books.push(book);
+
+      // Set LocalStorage
+      localStorage.setItem('books', JSON.stringify(books));
+      } else {
+
+      books = JSON.parse(localStorage.getItem('books'));
+
+      // push new item
+      books.push(book);
+
+      localStorage.setItem('books', JSON.stringify(books));
+      }
+
+    }
 
   }
 })();
@@ -50,8 +81,9 @@ const Book = function(id, title, author, year, pages){
 }
 
 const data = {
-  // books: StorageCtrl.getItemsFromStorage();
-  books: sampleData,
+  // books: StorageCtrl.getBooksFromStorage();
+  // books: sampleData,
+  books: StorageCtrl.getBooksFromStorage(),
   currentItem: null,
   totalBooks: null
 }
@@ -76,6 +108,54 @@ const data = {
 
       return newBook;
     },
+    generateRandomOldBook(books){
+      //make temporary array for books is older than or equal to 50 years ago
+
+
+      // Generate random ID ** make sure to use temporary array length
+      let randomID = Math.floor(Math.random()*books.length);
+
+      console.log(randomID);
+
+      // find random ID and return single book
+      function isId(book){
+        return book.id === randomID;
+      }
+
+      let randomBook = books.find(isId);
+      return randomBook;
+    },
+    convertArrayOfObjectsToCSV(args) {
+          var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+          data = args.data || null;
+          if (data == null || !data.length) {
+              return null;
+          }
+
+          columnDelimiter = args.columnDelimiter || ',';
+          lineDelimiter = args.lineDelimiter || '\n';
+
+          keys = Object.keys(data[0]);
+
+          result = '';
+          result += keys.join(columnDelimiter);
+          result += lineDelimiter;
+
+          data.forEach(function(item) {
+              ctr = 0;
+              keys.forEach(function(key) {
+                  if (ctr > 0) result += columnDelimiter;
+
+                  result += item[key];
+                  ctr++;
+              });
+              result += lineDelimiter;
+          });
+
+          return result;
+      },
+
     logData(){
       return data.books;
     }
@@ -90,16 +170,23 @@ const UICtrl = (function(){
     yearInput: '#year-input',
     pagesInput: '#pages-input',
     addBookBtn: '.add-book-btn',
-    generateBookBtn: '.generateBookBtn',
+    generateBookBtn: '.generate-book-btn',
     bookList: '.book-list',
     showListBtn: '.show-list-btn',
-    hideListBtn: '.hide-list-btn'
+    hideListBtn: '.hide-list-btn',
+    randomBookDisplay: '.book-recommendation-container',
+    oldBookDisplay: '#old-book-title',
+    oldBookBodyDiplay: '.old-book-body',
+    newBookDisplay: '#new-book-title',
+    newBookBodyDisplay: '.new-book-body',
+    exportCSVBtn: '.export-csv'
   };
 
   return {
     populateBookList: function(books){
       let html = '';
 
+      if(books !== null){
       books.forEach(function(book){
         html += `<li class="list-group-item">
         <strong>Book:</strong> ${book.title}<br>
@@ -111,7 +198,7 @@ const UICtrl = (function(){
       });
 
       document.querySelector(UISelectors.bookList).innerHTML = html;
-
+    }
     },
     getBookInput: function(){
       return {
@@ -136,7 +223,7 @@ const UICtrl = (function(){
       Pages: ${book.pages}</em>
       </li>
       `;
-      console.log(li.innerHTML);
+
       document.querySelector(UISelectors.bookList).insertAdjacentElement('beforeend', li);
     },
     clearInput(){
@@ -155,6 +242,29 @@ const UICtrl = (function(){
       document.querySelector(UISelectors.hideListBtn).style.display = 'none';
       document.querySelector(UISelectors.showListBtn).style.display = 'inline-block';
     },
+    showRandomBooks(){
+      document.querySelector(UISelectors.randomBookDisplay).style.display = 'inline-grid';
+    },
+    hideRandomBooks(){
+      document.querySelector(UISelectors.randomBookDisplay).style.display = 'none';
+    },
+    displayOldBookRecommendation(book){
+      // document.querySelector(UISelectors.oldBookDisplay).textContent = book.title;
+      UICtrl.showRandomBooks();
+
+      const p = document.createElement('p');
+
+      p.innerHTML = `
+      <p><strong>${book.title}</strong><br>${book.author}<br>
+      <em>Year: ${book.year},
+      Pages: ${book.pages}</em>
+      </p>
+      `;
+
+      document.querySelector(UISelectors.oldBookBodyDiplay).innerHTML = p.innerHTML
+
+
+    },
     getSelectors: function(){
       return UISelectors;
     }
@@ -168,18 +278,28 @@ const App = (function(BookCtrl, StorageCtrl, UICtrl){
     const UISelectors = UICtrl.getSelectors();
 
     UICtrl.hideListState();
+    UICtrl.hideRandomBooks();
     // add book submit button
     document.querySelector(UISelectors.addBookBtn).addEventListener('click', addBookSubmit);
 
+    // listen for show list button
     document.querySelector(UISelectors.showListBtn).addEventListener('click', showList);
+
+    // listen for hide list button
     document.querySelector(UISelectors.hideListBtn).addEventListener('click', hideList);
 
-
-    // book generate button
-
-    // Show/Hide list toggle button
+    // book generate old and new button
+    document.querySelector(UISelectors.generateBookBtn).addEventListener('click', generateBook);
 
     // Export list button(csv)?
+    // document.querySelector(UISelectors.exportCSVBtn).addEventListener('click', exportCSV);
+    document.querySelector(UISelectors.exportCSVBtn).addEventListener('click', downloadCSV);
+
+    // features to implement
+    
+    // add confirm before generating new book "Did you read your last old book first?"
+
+    // Save old and new book in lcoal storage to remind you before generating new one
 
 
   }
@@ -193,10 +313,10 @@ const App = (function(BookCtrl, StorageCtrl, UICtrl){
       // Create new book in book controller and assign to local variable
       const newBook = BookCtrl.addBook(input.title, input.author, input.year, input.pages);
 
-      console.log(newBook);
       // Add book to UI by sending local variable
       UICtrl.addListBook(newBook);
       // Store in local storage or DB by sending local variable
+      StorageCtrl.storeItem(newBook);
 
       UICtrl.showListState();
       // Clear input fields
@@ -214,6 +334,37 @@ const App = (function(BookCtrl, StorageCtrl, UICtrl){
     UICtrl.hideListState();
   };
 
+  const generateBook = function(){
+    books = StorageCtrl.getBooksFromStorage();
+
+    let randomBook = BookCtrl.generateRandomOldBook(books);
+
+    UICtrl.displayOldBookRecommendation(randomBook);
+  }
+
+    downloadCSV = function(args) {
+        var data, filename, link;
+
+        const books = StorageCtrl.getBooksFromStorage();
+
+        var csv = BookCtrl.convertArrayOfObjectsToCSV({
+            data: books
+        });
+        if (csv == null) return;
+
+        filename = args.filename || 'book-export.csv';
+
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = 'data:text/csv;charset=utf-8,' + csv;
+        }
+        data = encodeURI(csv);
+
+        link = document.createElement('a');
+        link.setAttribute('href', data);
+        link.setAttribute('download', filename);
+        link.click();
+    }
+
   return {
     init: function (){
 
@@ -221,9 +372,7 @@ const App = (function(BookCtrl, StorageCtrl, UICtrl){
 
       // console.log(StorageCtrl.getBooks());
       // const books = StorageCtrl.getBooks();
-      const books = BookCtrl.getBooks();
-
-      console.log(books);
+      const books = StorageCtrl.getBooks();
 
       UICtrl.populateBookList(books);
 

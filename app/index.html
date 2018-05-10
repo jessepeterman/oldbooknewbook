@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Old Book New Book App</title>
   <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <div id="container-my">
@@ -34,37 +34,41 @@
         <input type="number" name="pages-input" id="pages-input" placeholder="Pages">
       </div>
       <div class="centered">
-        <button class="add-book-btn centered">Add Book</button>
-        <button class="show-list-btn centered">Show List</button>
-        <button class="hide-list-btn centered">Hide List</button>
-        <button class="generate-book-btn centered mt-3">Generate Old and New Book</button>
+        <button class="btn add-book-btn centered btn-success">Add Book</button>
+        <button class="btn show-list-btn centered btn-success">Show List</button>
+        <button class="btn hide-list-btn centered btn-success">Hide List</button>
+        <button class="btn generate-book-btn centered btn-success mt-3">Generate Old and New Book</button>
       </div>
     </div>
   </div>
-<div class="old-book invisible">
-  <div class="card border-secondary mb-3" style="">
-    <div class="card-header" style="text-align: center"><h4>Old Book Title</h4></div>
-    <div class="card-body"><p>Author, Pages, Start Date, Finish Date</p>
-      <button class="centered">Get Book Suggestion</button>
+
+  <div class="book-recommendation-container">
+    <div class="old-book book-recommendation">
+      <div class="card book-recommendation border-secondary mb-3" style="">
+        <div class="card-header" style="text-align: center"><h4 id="old-book-title"><span>Old Book Rec </span></h4></div>
+        <div class="card-body old-book-body"><p>Author, Pages, Start Date, Finish Date</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="new-book invisible">
-  <div class="card border-secondary mb-3" style="">
-    <div class="card-header" style="text-align: center"><h4>New Book Title</h4></div>
-    <div class="card-body"><p>Author, Pages, Start Date, Finish Date</p>
-      <button class="centered">Get Book Suggestion</button>
+    <div class="new-book book-recommendation">
+      <div class="card border-secondary mb-3" style="">
+        <div class="card-header" style="text-align: center"><h4 id="new-book-title"><span>New Book Rec </span></h4></div>
+        <div class="card-body new-book-body"><p>Author, Pages, Start Date, Finish Date</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    </div>
+
 <div>
-  <ul class="list-group book-list">
+  <ul class="list-group book-list mb-3">
   </ul>
 </div>
 
+
+<!-- container div -->
 </div>
 
-
+<button class="btn btn-warning export-csv">Export CSV</button>
 
   <script src="assets/app.js"></script>
 </body>
