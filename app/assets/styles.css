@@ -1,5 +1,5 @@
 body{
-  background-color: gray;
+  /* background-color: gray; */
 }
 h1{
   position: relative;
@@ -12,12 +12,34 @@ li{
   list-style: none;
 }
 
+blockquote{
+  margin: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
 #container-my{
   /* background-color: gray; */
   width: 300px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+@media(min-width: 600px){
+  #container-my{
+    width: auto;
+  }
+}
+@media(min-width: 900px){
+  #container-my{
+    width: 900px;
+  }
+}
+
+.form-div{
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .input{
@@ -48,22 +70,45 @@ button .btn{
 
 .book-recommendation-container {
   position: relative;
-  display: inline-grid;
+  /* display: inline-grid; */
+  display: flex;
   margin-left: auto;
   margin-right: auto;
 
 }
 .book-recommendation {
   position: relative;
-  width: 150px;
+  width: auto;
 }
+
+@media (min-width: 800px){
+  .book-recommendation{
+  display: flex;
+    width: 200px;
+  }
+}
+
 .old-book{
-  grid-row: 1;
-  left: -12px;
+  /* grid-row: 1; */
+  /* left: -12px; */
 }
+
+@media (min-width: 800px){
+  .old-book{
+    position: relative;
+    flex-direction: row;
+  }
+}
+
 .new-book{
-  grid-row: 1;
-  right: -12px;
+  /* grid-row: 1; */
+  /* right: -12px; */
+}
+@media (min-width: 800px){
+  .new-book{
+    position: relative;
+    flex-direction: row;
+  }
 }
 
 div .new-book{
