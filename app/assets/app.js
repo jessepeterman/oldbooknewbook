@@ -121,18 +121,8 @@ const data = {
     generateRandomBook(books){
       // Generate random ID ** make sure to use temporary array length
       const randomID = Math.floor(Math.random()*books.length);
-      // find random ID and return single book
-      // function isId(book){
-      //   return book.id === randomID;
-      // }
-      // const randomBook = books.find(isId);
 
-      const randomBook = books.filter((book, index)=>{
-        return book.index === randomID;
-      });
-
-      // instead of searching by ID of new array, search by index?
-      console.log(randomBook);
+      const randomBook = books[randomID];
       return randomBook;
     },
     convertArrayOfObjectsToCSV(args) {
@@ -362,9 +352,9 @@ const App = (function(BookCtrl, StorageCtrl, UICtrl){
     const randomOldBook = BookCtrl.generateRandomBook(oldBooks);
     UICtrl.displayOldBookRecommendation(randomOldBook);
 
-    // const newBooks = BookCtrl.getNewBooks(books);
-    // const randomNewBook = BookCtrl.generateRandomNewBook(newBooks);
-    // UICtrl.displayNewBookRecommendation(randomNewBook);
+    const newBooks = BookCtrl.getNewBooks(books);
+    const randomNewBook = BookCtrl.generateRandomBook(newBooks);
+    UICtrl.displayNewBookRecommendation(randomNewBook);
 // closure issue?
     // const newBooks = BookCtrl.getNewBooks(books);
     // const randomNewBook = BookCtrl.generateRandomBook(newBooks);
